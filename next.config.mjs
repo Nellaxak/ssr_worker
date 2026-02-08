@@ -11,8 +11,11 @@ const nextConfig = {
     cacheMaxMemorySize: 100, *///Mb
     /*basePath: '/categories',*/
     experimental: {
-        nextScriptWorkers: true,
-        webpackBuildWorker: true,
+        /*nextScriptWorkers: true,
+        webpackBuildWorker: true,*/
+        /*turbopack: {
+      root: '../../', // Adjust based on your monorepo structure
+    },*/
         /*serverComponentsExternalPackages: ['worker_threads'],*/
     },
     //destination: '/categories?viewtype=main&page=0',

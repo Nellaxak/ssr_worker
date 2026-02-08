@@ -18,7 +18,6 @@ class DataLength {
   static async setArr(pageParam, arrParams) {
     if (pageParam !== DataLength.page) {
       //delete worker
-      //DataLength.arr = DataLength.arr.concat(arrParams)
       const ssr_worker = new Worker('./worker.js', {
         workerData: {
           arr: arrParams//DataLength.arr,
