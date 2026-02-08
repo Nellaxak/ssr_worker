@@ -1,0 +1,29 @@
+{
+  "name": "nasaapi",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "https-proxy-agent": "^7.0.6",
+    "next": "16.1.1",
+    "node-fetch": "^3.3.2",
+    "piscina": "^5.1.4",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "workerpool": "^10.0.1"
+  },
+  "devDependencies": {
+    "@builder.io/partytown": "^0.10.3",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^24.5.2",
+    "@types/react": "^19.1.13",
+    "react-performance-testing": "^2.0.0",
+    "typescript": "5.9.2"
+  }
+}

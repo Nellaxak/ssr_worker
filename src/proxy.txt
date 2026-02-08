@@ -1,0 +1,32 @@
+// middleware.ts (or proxy.ts in Next.js 16+)
+import { NextResponse, NextRequest } from 'next/server';
+import worker_threads, { parentPort, workerData, Worker, MessageChannel, isMainThread } from 'node:worker_threads';
+//import type { NextRequest } from 'next/server';
+//create one pool workers
+
+const { port1, port2 } = new MessageChannel();
+//port1.on('message', (message) => console.log('received', message));
+//port2.postMessage({ foo: 'bar' });
+// Prints: received { foo: 'bar' } from the `port1.on('message')` listener
+const statusMap = new Map()
+const worker = new Worker('./worker.js');
+export function proxy(request, response) { // Function might be named 'proxy' in Next.js 16+
+    // Assume a cookie is set for authenticated users
+    //const isAuthenticated = request.cookies.has('authenticated');
+    //console.log('middleware request', request, response,request.method, request.url)//
+    //console.log('gggg',NextResponse)
+    //console.log('json',request.json())//arr
+    // If user is not authenticated and trying to access a protected route, redirect to login
+    /*if (!isAuthenticated && request.nextUrl.pathname.startsWith('/dashboard')) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }*/
+    const rrr = NextResponse.next();
+    console.log('rrr', rrr)
+    // Continue to the intended route if authenticated or accessing a public page
+    return rrr
+}
+
+// Configuration to specify which paths the middleware should apply to
+export const config = {
+    matcher: ['/:path*', '/dashboard/:path*', '/about/:path*'], // Applies to /dashboard and /about pages
+};

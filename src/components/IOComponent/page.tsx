@@ -1,0 +1,96 @@
+'use client'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useState, useRef } from "react";
+import dynamic from 'next/dynamic'
+//import { load } from '../../app/lib/actions'
+
+const options = {
+    root: null,
+    rootMargin: "0px 0px 10px 0px",
+    threshold: 1.0,
+}
+let router: any
+let path: any
+let searchParams: any
+let currentViewtype: any
+let ref: any
+let add = false
+let callbackFunction: any
+const IOComponent = () => {
+    const router = useRouter()
+    //path = usePathname()
+    const searchParams = useSearchParams()
+    const [page, setPage] = useState(0);
+    const [scrollDirection, setScroll] = useState('start');
+    const currentViewtype = searchParams.get('viewtype')
+    const ref = useRef(null)
+    /*if (!path.includes('items')) {
+        add = true
+    }*/
+    const handleScroll = useCallback(async () => {
+        let maxScrollTop = window.scrollY
+        //let maxScrollBottom = document.documentElement.scrollHeight - window.scrollY - window.innerHeight;
+        if (maxScrollTop <= 0) {
+            setPage((page) => {
+                let newPage = page - 1
+                if (newPage < 0) {
+                    newPage = 0
+                }
+                return newPage
+            })
+            if (page > 0) {
+                setScroll('top')
+            } else
+            {
+                setScroll('start')
+            }
+        }
+    }, [])
+    callbackFunction = useCallback(async (entries: IntersectionObserverEntry[]) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {// && add) {
+            //console.log('input')
+            setPage((page) => {
+                let newPage = page + 1
+                return newPage
+            })
+            setScroll('bottom')
+        }
+    }, []);
+    useEffect(() => {
+        const observer = new IntersectionObserver(callbackFunction, options);
+        //as HTMLElement
+        document.addEventListener('scrollend', handleScroll)
+
+        observer.observe(ref.current);
+        return () => {
+            observer.disconnect();
+            document.removeEventListener('scrollend', handleScroll)
+        };
+    }, [])
+    useEffect(() => {
+        router.push(`/categories?viewtype=${currentViewtype}&page=${page}&scroll=${scrollDirection}`, { scroll: false });
+        const elem = document.querySelector('ol')
+
+        if (elem && page > 0 && scrollDirection === 'bottom') {
+            const el = elem.firstElementChild
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'smooth', // Optional: animation effect
+                    block: 'start', // Vertical alignment (MANDATORY for vertical scroll)
+                    inline: 'start' // Horizontal alignment nearest
+                })
+            }
+        } else if (elem && page > 0 && scrollDirection === 'top') {
+            const el = elem.lastElementChild
+            el.scrollIntoView({
+                behavior: 'smooth',
+                block: 'end',
+                inline: 'start'
+            })
+        }
+    }, [page])
+    return <p ref={ref}></p>
+}
+//export default IOComponent
+export default dynamic(() => Promise.resolve(IOComponent), { ssr: false });
