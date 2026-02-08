@@ -11,9 +11,9 @@ const nextConfig = {
     cacheMaxMemorySize: 100, *///Mb
     /*basePath: '/categories',*/
     experimental: {
-        /*nextScriptWorkers: true,
-        webpackBuildWorker: true,*/
-        turbo: false, // Disables Turbopack for build/deploy
+        nextScriptWorkers: true,
+        webpackBuildWorker: true,
+        /*turbo: false, // Disables Turbopack for build/deploy
         /*turbopack: {
       root: '../../', // Adjust based on your monorepo structure
     },*/
