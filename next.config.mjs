@@ -13,6 +13,9 @@ const nextConfig = {
     experimental: {
         /*nextScriptWorkers: true,
         webpackBuildWorker: true,*/
+        experimental: {
+            turbo: false, // Disables Turbopack for build/deploy
+        },
         /*turbopack: {
       root: '../../', // Adjust based on your monorepo structure
     },*/
