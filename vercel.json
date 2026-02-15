@@ -3,7 +3,7 @@
   "outputDirectory": "build",
   "version": 2,
   "functions": {
-    "worker.js": {
+    "src/app/api/worker.js": {
       "runtime": "node@22.18.0"
     }
   },
