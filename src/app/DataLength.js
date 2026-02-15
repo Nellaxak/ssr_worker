@@ -7,7 +7,7 @@ import { Worker, BroadcastChannel } from 'node:worker_threads';
 //const activeWorkers = new Set();//WeakSet
 const channel = new BroadcastChannel('post_channel');
 //new Worker(new URL("../../worker.js", import.meta.url))
-const ssr_worker = new Worker('./vercel/var/task/app/api/worker.js')
+const ssr_worker = new Worker('./var/task/app/api/worker.js')
 /*, {
         workerData: {
           arr: DataLength.arr,
