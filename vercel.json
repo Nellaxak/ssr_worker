@@ -8,6 +8,6 @@
     }
   },
   "routes": [
-    { "src": "/src/app/api/worker", "dest": "/worker.js" }
+    { "src": "/app/api/worker", "dest": "/worker.js" }
   ]
 }
