@@ -7,9 +7,9 @@ import React, { createElement, Suspense } from "react";
 //const inter = Inter({ subsets: ['latin'] })
 
 export default async function ParallelLayout({
-  children, viewtypes,
+  children, 
+  viewtypes,
   list,
-  count,
 }/*: {
   children: React.ReactNode,
   count: React.ReactNode,
@@ -19,7 +19,6 @@ export default async function ParallelLayout({
     <Suspense>
       <Suspense>{viewtypes}</Suspense>
       <Suspense>{list}</Suspense>
-      <Suspense>{count}</Suspense>
       <Suspense>{children}</Suspense>
     </Suspense>
   )

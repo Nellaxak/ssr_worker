@@ -6,6 +6,9 @@ import { parentPort, workerData, BroadcastChannel } from 'node:worker_threads';
 import ButtonSubmit from '../../../components/ButtonSubmit/page'
 //import Item from "../../Item";
 import DataLength from "../../DataLength";
+import Count from '../../../components/Count/page'
+
+//import Mutex from "nasaapi/Mutex";
 
 let resp
 let endDate
@@ -19,8 +22,14 @@ let list
 let newArr
 let offset = []
 let statusMap = new Map()
-const channel = new BroadcastChannel('status_channel');
+let count = 0
+const channel = new BroadcastChannel('get_channel');
+//const channelM = new BroadcastChannel('mutex_channel');
+/*const buffer = new SharedArrayBuffer(1024);
+const sharedMemory = new Int32Array(buffer);
 
+const mutexBuffer = new SharedArrayBuffer(4)
+const mutex = new Mutex(mutexBuffer)*/
 //const ll = await createLinkedListInstance()
 
 const options = {
@@ -131,27 +140,30 @@ async function FormatStatus(params) {
 async function List({ items, page, scroll, renderItem }) {
     let res
     if (scroll === 'start') {
-        res = await Promise.all(//allSettled
-            items.slice(page * 8, page * 8 + 8).map(async (item) => {
-                if (item) {
-                    return await renderItem(item);
-                }
-            }))
+        //mutex.executeLocked(() => {
+        res = items.slice(page * 8, page * 8 + 8).map(async (item) => {
+            if (item) {
+                return await renderItem(item);
+            }
+        })
+        //})
     }
     else if (scroll === 'bottom') {
-        res = await Promise.all(
-            items.slice(Math.max((page * 8) - 2, 0), page * 10 + 6).map(async (item) => {
-                if (item) {
-                    return await renderItem(item);
-                }
-            }))
+        //mutex.executeLocked(() => {
+        res = items.slice(Math.max((page * 8) - 2, 0), page * 10 + 6).map(async (item) => {
+            if (item) {
+                return await renderItem(item);
+            }
+        })
+        //})
     } else if (scroll === 'top') {
-        res = await Promise.all(
-            items.slice(page * 8, page * 8 + 8).map(async (item) => {
-                if (item) {
-                    return await renderItem(item);
-                }
-            }))
+        //mutex.executeLocked(() => {
+        res = items.slice(page * 8, page * 8 + 8).map(async (item) => {
+            if (item) {
+                return await renderItem(item);
+            }
+        })
+        //})
     }
     return (<Suspense>{res}
     </Suspense>
@@ -204,41 +216,46 @@ async function Row(props) {
         </li>
     </Suspense>
 }
-const single = new Map()
-let result = []
 let data_items = []
+
 export default async function Home({ searchParams }) {
     const search = await searchParams;
     const page = await search.page
     //let [startDate, endDate] = await CalcData(page)
     //const viewtype = await search.viewtype
     const scroll = await search.scroll
+    const startDate = Number(page) * 8//offset +2 bottom,-2 top scroll
     //try {
-    const resp = await fetch('https://jsonplaceholder.typicode.com/comments?_start=0&_limit=8',
+    const resp = await fetch(`https://jsonplaceholder.typicode.com/comments?_start=${startDate}&_limit=8`,
         { cache: 'force-cache' },
         { next: { tags: ['items'] } }
     );
 
     if (Number(resp.status) === 200) {
+        //const data= read(resp.body)
         const data = await resp.json()
 
-        const success = await DataLength.setArr(Number(page), data, scroll)
+        const success = await DataLength.setArr(Number(page), data)
         if (success === true) {
             data_items = await DataLength.getArr()
+            //channelM.postMessage({ mutex: mutexBuffer })
             channel.onmessage = (event) => {
                 //console.log('Получено сообщение:', event.data);
                 statusMap = event.data.statusMap
+                count = event.data.count
             };
         }
-        return <List items={data_items} page={Number(page)} scroll={scroll}
-            renderItem={async (product) => {
-
-                //}
-                return <Row
-                    key={product.id}
-                    obj={product}
-                />
-            }} />
+        return <div>
+            <List items={data_items} page={Number(page)} scroll={scroll}
+                renderItem={async (product) => {
+                    //}
+                    return <Row
+                        key={product.id}
+                        obj={product}
+                    />
+                }} />
+            <Count count={count} />
+        </div>
     } else {
         console.log('resp', resp.status)
     }
