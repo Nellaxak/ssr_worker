@@ -10,7 +10,7 @@ const nextConfig = {
     /*cacheHandler: require.resolve('./src/cache-handler.js'),
     cacheMaxMemorySize: 100, *///Mb
     /*basePath: '/categories',*/
-    /*webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
+    webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
         // Customize the config here
         //console.log('isServer', isServer)
         if (isServer) {
@@ -35,7 +35,7 @@ const nextConfig = {
 
         // Important: return the modified config
         return config;
-    },*/
+    },
     experimental: {
         nextScriptWorkers: true,
         webpackBuildWorker: true,

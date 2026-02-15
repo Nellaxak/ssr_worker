@@ -195,7 +195,7 @@ async function Row(props) {
     return <Suspense>
         <li key={props.obj.id}>
             <div className={styles.flex_item}>
-                <span className={styles.padding}>{props.dates}</span>
+                <span className={styles.padding}>{props.obj.id}</span>
             </div>
             <span className={styles.name_link}>{props.obj.name}</span>
             <div className={styles.flex_container_row}>
