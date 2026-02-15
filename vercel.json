@@ -1,5 +1,11 @@
 {
-  "buildCommand": "next build --webpack",
+  "buildCommand": "next build",
   "outputDirectory": "build",
-  "version": 2
+  "version": 2,
+  "builds": [
+    {
+      "src": "worker.js",
+      "use": "@vercel/node"
+    }
+  ]
 }
