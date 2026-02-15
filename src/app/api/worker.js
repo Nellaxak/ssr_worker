@@ -1,6 +1,12 @@
 import React, { Suspense } from "react";
 import { parentPort, workerData, BroadcastChannel } from 'node:worker_threads';
 //import Mutex from "nasaapi/Mutex";
+// api/worker.js
+module.exports = (req, res) => {
+    // Your worker logic here
+    res.status(200).send('Worker executed successfully');
+};
+
 const statusMap = new Map()
 let count = 0
 const channelP = new BroadcastChannel('post_channel');
