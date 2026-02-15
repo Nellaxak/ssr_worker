@@ -4,7 +4,7 @@
   "version": 2,
   "functions": {
     "worker.js": {
-      "runtime": "node LATEST"
+      "runtime": "@vercel/node"
     }
   },
   "routes": [
