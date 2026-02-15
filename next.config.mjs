@@ -37,9 +37,9 @@ const nextConfig = {
         //return config;
     //},
     experimental: {
-        /*nextScriptWorkers: true,
-        webpackBuildWorker: true,*/
-        /*serverComponentsExternalPackages: ['worker_threads'],*/
+        nextScriptWorkers: true,
+        webpackBuildWorker: true,
+        serverComponentsExternalPackages: ['node:worker_threads'],
     },
     //destination: '/categories?viewtype=main&page=0',
     async redirects() {
