@@ -142,11 +142,15 @@ async function List({ items, page, scroll, renderItem }) {
     let res
     if (scroll === 'start') {
         //mutex.executeLocked(() => {
-        res = items.slice(page * 8, page * 8 + 8).map(async (item) => {
+        const itemsSlice = items.slice(page * 8, page * 8 + 8)
+        itemsSlice.forEach((item) => {
+            setTimeout(() => { res = renderItem(item) })
+        })
+        /*res = .map(async (item) => {
             if (item) {
                 return await renderItem(item);
             }
-        })
+        })*/
         //})
     }
     else if (scroll === 'bottom') {
@@ -244,7 +248,7 @@ export default async function Home({ searchParams }) {
             data_items = await DataLength.getArr()
             //channelM.postMessage({ mutex: mutexBuffer })
             channel.onmessage = (event) => {
-                console.log('Получено сообщение:', event.data);
+                //console.log('Получено сообщение:', event.data);
                 statusMap = event.data.statusMap
                 count = event.data.count
             };
