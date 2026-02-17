@@ -1,6 +1,7 @@
 import styles from "./page.module.css";
 import React, { Suspense, Activity } from "react";
 import { parentPort, workerData, BroadcastChannel } from 'node:worker_threads';
+import axios from "axios";
 //import statusMap from "../../statusMap";
 //import { revalidateTag, revalidatePath } from 'next/cache';
 import ButtonSubmit from '../../../components/ButtonSubmit/page'
@@ -195,7 +196,7 @@ async function Row(props) {
     return <Suspense>
         <li key={props.obj.id}>
             <div className={styles.flex_item}>
-                <span className={styles.padding}>{props.obj.id}</span>
+                <span className={styles.padding}>{props.dates}</span>
             </div>
             <span className={styles.name_link}>{props.obj.name}</span>
             <div className={styles.flex_container_row}>
@@ -222,25 +223,28 @@ export default async function Home({ searchParams }) {
     const search = await searchParams;
     const page = await search.page
     //let [startDate, endDate] = await CalcData(page)
-    //const viewtype = await search.viewtype
+    let startDate = 0
+    //console.log('startDate', startDate)
+    const viewtype = await search.viewtype
     const scroll = await search.scroll
-    const startDate = Number(page) * 8//offset +2 bottom,-2 top scroll
+    //const startDate = Number(page) * 8//offset +2 bottom,-2 top scroll
     //try {
     const resp = await fetch(`https://jsonplaceholder.typicode.com/comments?_start=${startDate}&_limit=8`,
         { cache: 'force-cache' },
         { next: { tags: ['items'] } }
     );
-
+    //axios({
+    //console.log('resp.status', resp.status)
     if (Number(resp.status) === 200) {
         //const data= read(resp.body)
         const data = await resp.json()
-
+        //console.log('data', data)
         const success = await DataLength.setArr(Number(page), data)
         if (success === true) {
             data_items = await DataLength.getArr()
             //channelM.postMessage({ mutex: mutexBuffer })
             channel.onmessage = (event) => {
-                //console.log('Получено сообщение:', event.data);
+                console.log('Получено сообщение:', event.data);
                 statusMap = event.data.statusMap
                 count = event.data.count
             };

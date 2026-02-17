@@ -1,13 +1,5 @@
 {
   "buildCommand": "next build",
   "outputDirectory": "build",
-  "version": 2,
-  "functions": {
-    "src/app/api/worker.js": {
-      "runtime": "node@22.18.0"
-    }
-  },
-  "routes": [
-    { "src": "/app/api/worker", "dest": "/worker.js" }
-  ]
+  "version": 2
 }
