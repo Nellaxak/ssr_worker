@@ -144,7 +144,10 @@ async function List({ items, page, scroll, renderItem }) {
         //mutex.executeLocked(() => {
         const itemsSlice = items.slice(page * 8, page * 8 + 8)
         itemsSlice.forEach((item) => {
-            setTimeout(() => { res = renderItem(item) })
+            setTimeout(() => {
+                console.log('item', item)
+                res = renderItem(item)
+            })
         })
         /*res = .map(async (item) => {
             if (item) {
