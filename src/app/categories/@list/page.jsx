@@ -145,7 +145,7 @@ async function List({ items, page, scroll, renderItem }) {
         const itemsSlice = items.slice(page * 8, page * 8 + 8)
         itemsSlice.forEach((item) => {
             setTimeout(async () => {
-                console.log('item', item)
+                console.log('item', await renderItem(item))
                 res = await renderItem(item)
             })
         })
