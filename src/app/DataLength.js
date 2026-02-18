@@ -9,14 +9,20 @@ import { Worker, parentPort, BroadcastChannel } from 'node:worker_threads';
 //const activeWorkers = new Set();//WeakSet
 //const channel = new BroadcastChannel('post_channel');
 //new Worker(new URL("../../worker.js", import.meta.url))
-//import { parentPort, BroadcastChannel } from 'node:worker_threads';
-/*const workerCode = `
-const { parentPort, BroadcastChannel } = require('worker_threads');
 const statusMap = new Map()
-let count = 0
+//import { parentPort, BroadcastChannel } from 'node:worker_threads';
+let count = 0;
+
+const channelG = new BroadcastChannel('get_channel');
+channelG.postMessage({ statusMap: statusMap, count: count });
+const workerCode = `
+const { parentPort, BroadcastChannel } = require('worker_threads');
 const channelP = new BroadcastChannel('post_channel');
 const channelG = new BroadcastChannel('get_channel');
-
+channelG.onmessage = (event) => {
+    const count = Number(event.data.count)
+    const statusMap=event.data.statusMap
+}
 channelP.onmessage = (event) => {
     const id = Number(event.data.params)
     const oldStatus = statusMap.get(id)
@@ -31,8 +37,8 @@ channelP.onmessage = (event) => {
 };
 parentPort.postMessage({ statusMap: statusMap });
 `;
-const ssr_worker = new Worker(workerCode, { eval: true })*/
-const ssr_worker = new Worker('./public/worker.js', { type: "module" })
+const ssr_worker = new Worker(workerCode, { eval: true })
+//const ssr_worker = new Worker('./public/worker.js', { type: "module" })
 /*, {
         workerData: {
           arr: DataLength.arr,
