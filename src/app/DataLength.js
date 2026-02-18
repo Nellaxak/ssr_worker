@@ -27,6 +27,7 @@ channelP.onmessage = (event) => {
         statusMap.set(id, true)
         count = count + 1
     }
+    console.log('workerCode',statusMap, count)    
     channelG.postMessage({ statusMap: statusMap, count: count });
 };
 parentPort.postMessage({ statusMap: statusMap });
