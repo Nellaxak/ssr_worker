@@ -13,10 +13,10 @@ export async function scrollDirection(params) {
     return true//count
 }
 export async function toggleClick(params) {
-    /*channel.postMessage({ params: params});
-    revalidateTag('items','max')*/
+    channel.postMessage({ params: params});
+    revalidateTag('items','max')
     //console.log('toggleClick', params)
-    const id = Number(params)
+    /*const id = Number(params)
     const oldStatus = statusMap.get(id)
     //console.log('oldStatus', oldStatus)
     if (oldStatus === true) {
@@ -28,6 +28,6 @@ export async function toggleClick(params) {
         count = count + 1
         //console.log('count2', count)
     }
-    revalidateTag('items','max')
+    revalidateTag('items','max')*/
     channelG.postMessage({ statusMap: statusMap, count: count });
 }

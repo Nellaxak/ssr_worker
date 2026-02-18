@@ -1,13 +1,35 @@
 'use server'
 //import { Suspense } from "react";//
 //import Item from "./Item";
-import { Worker, BroadcastChannel } from 'node:worker_threads';
+import { Worker, parentPort, BroadcastChannel } from 'node:worker_threads';
+//import Script from 'next/script'//for jsx
 //import Mutex from 'nasaapi/Mutex';
+//import Worker from '../../worker.mjs?worker'//?url';
 //proxy object
 //const activeWorkers = new Set();//WeakSet
 //const channel = new BroadcastChannel('post_channel');
 //new Worker(new URL("../../worker.js", import.meta.url))
-//const ssr_worker = new Worker('./worker.js')
+const workerCode=`import { parentPort, BroadcastChannel } from 'node:worker_threads';
+const statusMap = new Map()
+let count = 0
+const channelP = new BroadcastChannel('post_channel');
+const channelG = new BroadcastChannel('get_channel');
+
+channelP.onmessage = (event) => {
+    const id = Number(event.data.params)
+    const oldStatus = statusMap.get(id)
+    if (oldStatus === true) {
+        statusMap.set(id, false)
+        count = count - 1
+    } else {
+        statusMap.set(id, true)
+        count = count + 1
+    }
+    channelG.postMessage({ statusMap: statusMap, count: count });
+};
+parentPort.postMessage({ statusMap: statusMap });
+`;
+const ssr_worker = new Worker(workerCode, { eval: true })
 /*, {
         workerData: {
           arr: DataLength.arr,

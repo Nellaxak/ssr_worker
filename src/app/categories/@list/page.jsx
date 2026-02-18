@@ -1,7 +1,8 @@
 import styles from "./page.module.css";
 import React, { Suspense, Activity } from "react";
 import { parentPort, workerData, BroadcastChannel } from 'node:worker_threads';
-import axios from "axios";
+//import axios from "axios";
+import Script from 'next/script'//for jsx
 //import statusMap from "../../statusMap";
 //import { revalidateTag, revalidatePath } from 'next/cache';
 import ButtonSubmit from '../../../components/ButtonSubmit/page'
@@ -142,13 +143,13 @@ async function List({ items, page, scroll, renderItem }) {
     let res
     if (scroll === 'start') {
         //mutex.executeLocked(() => {
-        const itemsSlice = items.slice(page * 8, page * 8 + 8)
-        itemsSlice.forEach((item) => {
-            setTimeout(async () => {
-                res = await renderItem(item)
-                console.log('item', res)
-            })
+        //const itemsSlice = items.slice(page * 8, page * 8 + 8)
+        res = items.slice(page * 8, page * 8 + 8).map(async (item) => {
+            if (item) {
+                return await renderItem(item);
+            }
         })
+
     }
     else if (scroll === 'bottom') {
         //mutex.executeLocked(() => {
@@ -262,6 +263,10 @@ export default async function Home({ searchParams }) {
             <Count count={count} />
         </div>
     } else {
+        /*<Script
+                src="./public/worker.js"
+                strategy="worker"
+            />*/
         console.log('resp', resp.status)
     }
     /* }
