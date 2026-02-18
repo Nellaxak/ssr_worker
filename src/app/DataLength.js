@@ -14,8 +14,10 @@ import { Worker, parentPort, BroadcastChannel } from 'node:worker_threads';
 
 const channelG = new BroadcastChannel('get_channel');
 //channelG.postMessage({ statusMap: statusMap, count: count });
+//const { parentPort, BroadcastChannel } = require('worker_threads');
+
 const workerCode = `
-import { parentPort, BroadcastChannel } from 'worker_threads';
+import { parentPort, BroadcastChannel } from 'node:worker_threads';
 const channelP = new BroadcastChannel('post_channel');
 const channelG = new BroadcastChannel('get_channel');
 let count=0
