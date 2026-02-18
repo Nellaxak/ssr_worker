@@ -19,8 +19,8 @@ const workerCode = `
 const { parentPort, workerData, BroadcastChannel } = require('worker_threads');
 const channelP = new BroadcastChannel('post_channel');
 const channelG = new BroadcastChannel('get_channel');
-let count=workerData.data.count
-const statusMap=workerData.data.statusMap
+let count=workerData.count
+const statusMap=workerData.statusMap
 channelP.onmessage = (event) => {
     const id = Number(event.data.params)
     const oldStatus = statusMap.get(id)
