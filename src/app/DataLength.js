@@ -15,7 +15,6 @@ import { Worker, parentPort, BroadcastChannel } from 'node:worker_threads';
 const channelG = new BroadcastChannel('get_channel');
 //channelG.postMessage({ statusMap: statusMap, count: count });
 const workerCode = `
-import { revalidateTag } from 'next/cache';
 import { parentPort, BroadcastChannel } from 'worker_threads';
 const channelP = new BroadcastChannel('post_channel');
 const channelG = new BroadcastChannel('get_channel');
@@ -33,7 +32,6 @@ channelP.onmessage = (event) => {
     }   
     channelG.postMessage({ statusMap: statusMap, count: count });
 };
-revalidateTag('items','max')
 `;
 const ssr_worker = new Worker(workerCode, { eval: true })
 //const ssr_worker = new Worker('./public/worker.js', { type: "module" })
