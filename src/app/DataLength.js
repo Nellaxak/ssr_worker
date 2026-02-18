@@ -14,7 +14,7 @@ import { Worker, parentPort, BroadcastChannel } from 'node:worker_threads';
 
 const channelG = new BroadcastChannel('get_channel');
 //channelG.postMessage({ statusMap: statusMap, count: count });
-const workerCode = `'use server'
+const workerCode = `
 import { revalidateTag } from 'next/cache';
 import { parentPort, BroadcastChannel } from 'worker_threads';
 const channelP = new BroadcastChannel('post_channel');
