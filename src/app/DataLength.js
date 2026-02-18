@@ -35,7 +35,7 @@ channelP.onmessage = (event) => {
 };
 parentPort.postMessage({ statusMap: statusMap });
 `;
-const ssr_worker = new Worker(workerCode, { workerData: { statusMap: statusMap, count: 0 } }, { eval: true })
+const ssr_worker = new Worker(workerCode, { 'workerData': { statusMap: statusMap, count: 0 }}, { eval: true })
 //const ssr_worker = new Worker('./public/worker.js', { type: "module" })
 /*, {
         workerData: {
