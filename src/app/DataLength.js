@@ -16,7 +16,6 @@ const channelG = new BroadcastChannel('get_channel');
 //channelG.postMessage({ statusMap: statusMap, count: count });
 const workerCode = `
 const { parentPort, BroadcastChannel } = require('worker_threads');
-console.log('hhhh')
 const channelP = new BroadcastChannel('post_channel');
 const channelG = new BroadcastChannel('get_channel');
 let count=0
