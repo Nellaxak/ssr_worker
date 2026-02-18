@@ -9,20 +9,18 @@ import { Worker, parentPort, BroadcastChannel } from 'node:worker_threads';
 //const activeWorkers = new Set();//WeakSet
 //const channel = new BroadcastChannel('post_channel');
 //new Worker(new URL("../../worker.js", import.meta.url))
-const statusMap = new Map()
 //import { parentPort, BroadcastChannel } from 'node:worker_threads';
 let count = 0;
 
 const channelG = new BroadcastChannel('get_channel');
-channelG.postMessage({ statusMap: statusMap, count: count });
+//channelG.postMessage({ statusMap: statusMap, count: count });
 const workerCode = `
 const { parentPort, BroadcastChannel } = require('worker_threads');
+console.log('hhhh')
 const channelP = new BroadcastChannel('post_channel');
 const channelG = new BroadcastChannel('get_channel');
-channelG.onmessage = (event) => {
-    const count = Number(event.data.count)
-    const statusMap=event.data.statusMap
-}
+let count=0
+const statusMap = new Map()
 channelP.onmessage = (event) => {
     const id = Number(event.data.params)
     const oldStatus = statusMap.get(id)
