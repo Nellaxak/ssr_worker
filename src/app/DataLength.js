@@ -11,6 +11,7 @@ import { Worker, parentPort, BroadcastChannel } from 'node:worker_threads';
 //new Worker(new URL("../../worker.js", import.meta.url))
 //import { parentPort, BroadcastChannel } from 'node:worker_threads';
 const workerCode = `
+const { parentPort, BroadcastChannel } = require('worker_threads');
 const statusMap = new Map()
 let count = 0
 const channelP = new BroadcastChannel('post_channel');
