@@ -10,7 +10,7 @@ import { Worker, parentPort, BroadcastChannel } from 'node:worker_threads';
 //const channel = new BroadcastChannel('post_channel');
 //new Worker(new URL("../../worker.js", import.meta.url))
 //import { parentPort, BroadcastChannel } from 'node:worker_threads';
-const workerCode = `
+/*const workerCode = `
 const { parentPort, BroadcastChannel } = require('worker_threads');
 const statusMap = new Map()
 let count = 0
@@ -26,13 +26,13 @@ channelP.onmessage = (event) => {
     } else {
         statusMap.set(id, true)
         count = count + 1
-    }
-    console.log('workerCode',statusMap, count)    
+    }   
     channelG.postMessage({ statusMap: statusMap, count: count });
 };
 parentPort.postMessage({ statusMap: statusMap });
 `;
-const ssr_worker = new Worker(workerCode, { eval: true })
+const ssr_worker = new Worker(workerCode, { eval: true })*/
+const ssr_worker = new Worker('./public/worker.js', { type: "module" })
 /*, {
         workerData: {
           arr: DataLength.arr,
