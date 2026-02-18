@@ -9,7 +9,8 @@ import { Worker, parentPort, BroadcastChannel } from 'node:worker_threads';
 //const activeWorkers = new Set();//WeakSet
 //const channel = new BroadcastChannel('post_channel');
 //new Worker(new URL("../../worker.js", import.meta.url))
-const workerCode = `import { parentPort, BroadcastChannel } from 'node:worker_threads';
+//import { parentPort, BroadcastChannel } from 'node:worker_threads';
+const workerCode = `
 const statusMap = new Map()
 let count = 0
 const channelP = new BroadcastChannel('post_channel');
