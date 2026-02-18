@@ -14,7 +14,7 @@ export async function scrollDirection(params) {
 }
 export async function toggleClick(params) {
     channel.postMessage({ params: params});
-    revalidateTag('items','max')
+    //revalidateTag('items','max')
     //console.log('toggleClick', params)
     /*const id = Number(params)
     const oldStatus = statusMap.get(id)
